@@ -1,0 +1,73 @@
+
+
+
+### Security Requests
+
+
+
+###
+GET /api/v1/security/csrf-token
+Host: localhost:9000
+Accept: application/json
+
+
+
+### Identity Requests
+
+
+
+###
+GET /api/v1/identities
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+GET /api/v1/identities/by-id?identityId=68e4b3d5-0475-4c57-9d75-062c864e2828
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+POST /api/v1/identities/create
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+X-Csrf-Token: e2vn6Q0lAG_DhaZ4z6DcAOUhzwRzvzXSJV8tSPfDQ_5U68DDQlrW3j0dYQvu58cero3oMoNC4j1BiVH_QWgeK8HxIJ9nj_Sm
+
+{
+    "authority": "ADMIN",
+    "email": "burgvv@gmail.com",
+    "pass": "burgasvv",
+    "firstname": "Бургас",
+    "lastname": "Вячеслав",
+    "patronymic": "Васильевич"
+}
+
+###
+PUT /api/v1/identities/update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgvv@gmail.com burgasvv
+X-Csrf-Token: 9TjNI3preR2VDY8i48s3LzzlN-dN6-Ot44UEVnQTxLKF1p0izAn8FEpTGHm4b-5EguYDHVqGGt5_3YeAh7I3NUIhp9O2sqlH
+
+{
+    "id": "68e4b3d5-0475-4c57-9d75-062c864e2828",
+    "email": "burgasvv@gmail.com"
+}
+
+###
+DELETE /api/v1/identities/delete?identityId=282d47a3-fa06-423f-8964-7b07a27a01db
+Host: localhost:9000
+Accept: application/json
+
+###
+PUT /api/v1/identities/change-password?identityId=282d47a3-fa06-423f-8964-7b07a27a01db&newPassword=burgasvv
+Host: localhost:9000
+Accept: application/json
+
+###
+PUT /api/v1/identities/enable-disable?identityId=282d47a3-fa06-423f-8964-7b07a27a01db&enabled=true
+Host: localhost:9000
+Accept: application/json
