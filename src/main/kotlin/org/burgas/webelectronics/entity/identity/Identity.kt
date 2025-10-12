@@ -1,5 +1,6 @@
 package org.burgas.webelectronics.entity.identity
 
+import com.fasterxml.jackson.annotation.JsonInclude
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

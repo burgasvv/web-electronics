@@ -10,9 +10,11 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.NamedAttributeNode
 import jakarta.persistence.NamedEntityGraph
+import jakarta.persistence.OneToMany
 import jakarta.persistence.OneToOne
 import jakarta.persistence.Table
 import org.burgas.webelectronics.entity.address.Address
+import org.burgas.webelectronics.entity.pk.StoreProduct
 import java.util.UUID
 
 @Entity
@@ -20,7 +22,8 @@ import java.util.UUID
 @NamedEntityGraph(
     name = "store-entity-graph",
     attributeNodes = [
-        NamedAttributeNode(value = "address")
+        NamedAttributeNode(value = "address"),
+        NamedAttributeNode(value = "storeProducts")
     ]
 )
 class Store {
@@ -34,11 +37,15 @@ class Store {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     var address: Address? = null
 
+    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    var storeProducts: MutableList<StoreProduct> = mutableListOf()
+
     constructor()
 
     @Suppress("unused")
-    constructor(id: UUID, address: Address?) {
+    constructor(id: UUID, address: Address?, storeProducts: MutableList<StoreProduct>) {
         this.id = id
         this.address = address
+        this.storeProducts = storeProducts
     }
 }
