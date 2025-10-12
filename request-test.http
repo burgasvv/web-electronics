@@ -71,3 +71,43 @@ Accept: application/json
 PUT /api/v1/identities/enable-disable?identityId=282d47a3-fa06-423f-8964-7b07a27a01db&enabled=true
 Host: localhost:9000
 Accept: application/json
+
+
+
+### Store Requests
+
+
+
+###
+GET /api/v1/stores
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/stores/by-id?storeId=7ea1918a-2e67-4cc7-b18c-1e8ee581f22c
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/stores/create-update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: Nd-WgPM8Dqh4TgXJU97tZB5JhV3GnwZ9V8jgT556WE8Zlk0xDLqktsEFOJ1VKDaoYPPZBiwqqD_3rmJQZ63SdvxCPXsh8ygD
+
+{
+    "address": {
+        "city": "Новосибирск",
+        "street": "ул. Морская",
+        "house": "25/1",
+        "apartment": "154a"
+    }
+}
+
+###
+DELETE /api/v1/stores/delete?storeId=7ea1918a-2e67-4cc7-b18c-1e8ee581f22c
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: -BczNiJSKxlS46i86nGXRX2OSreFd5AiLcSd9tPZK0WDs9RYwXIBABBrHSx_hZvd2VyjJ0_tZ9W0RvQPHaGvz7HhTnG71rFq

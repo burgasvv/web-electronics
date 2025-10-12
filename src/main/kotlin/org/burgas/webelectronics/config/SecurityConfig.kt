@@ -22,6 +22,10 @@ class SecurityConfig {
     private val passwordEncoder: PasswordEncoder
     private val customUserDetailsService: CustomUserDetailsService
 
+    companion object {
+        private const val API_URL = "/api/v1"
+    }
+
     constructor(passwordEncoder: PasswordEncoder, customUserDetailsService: CustomUserDetailsService) {
         this.passwordEncoder = passwordEncoder
         this.customUserDetailsService = customUserDetailsService
@@ -48,24 +52,28 @@ class SecurityConfig {
             .authorizeHttpRequests { requestMatcherRegistry ->
 
                 requestMatcherRegistry.requestMatchers(
-                    "/api/v1/security/csrf-token",
+                    "$API_URL/security/csrf-token",
 
-                    "/api/v1/identities/create",
+                    "$API_URL/identities/create",
 
-                    "/api/v1/images/by-id", "/api/v1/images/create", "/api/v1/images/change", "/api/v1/images/delete"
+                    "$API_URL/images/by-id", "$API_URL/images/create", "$API_URL/images/change", "$API_URL/images/delete",
+
+                    "$API_URL/stores", "$API_URL/stores/by-id"
                 )
                     .permitAll()
 
                     .requestMatchers(
-                        "/api/v1/identities/by-id", "/api/v1/identities/update",
-                        "/api/v1/identities/delete", "/api/v1/identities/change-password",
-                        "/api/v1/identities/create-image", "/api/v1/identities/change-image",
-                        "/api/v1/identities/delete-image"
+                        "$API_URL/identities/by-id", "$API_URL/identities/update",
+                        "$API_URL/identities/delete", "$API_URL/identities/change-password",
+                        "$API_URL/identities/create-image", "$API_URL/identities/change-image",
+                        "$API_URL/identities/delete-image"
                     )
                     .hasAnyAuthority(Authority.ADMIN.name, Authority.USER.name)
 
                     .requestMatchers(
-                        "/api/v1/identities", "/api/v1/identities/enable-disable"
+                        "$API_URL/identities", "$API_URL/identities/enable-disable",
+
+                        "$API_URL/stores/create-update", "$API_URL/stores/delete"
                     )
                     .hasAnyAuthority(Authority.ADMIN.name)
             }
