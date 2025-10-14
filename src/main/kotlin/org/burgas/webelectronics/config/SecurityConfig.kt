@@ -58,7 +58,11 @@ class SecurityConfig {
 
                     "$API_URL/images/by-id", "$API_URL/images/create", "$API_URL/images/change", "$API_URL/images/delete",
 
-                    "$API_URL/stores", "$API_URL/stores/by-id"
+                    "$API_URL/stores", "$API_URL/stores/by-id",
+
+                    "$API_URL/categories", "$API_URL/categories/by-id",
+
+                    "$API_URL/products", "$API_URL/products/by-id",
                 )
                     .permitAll()
 
@@ -73,7 +77,13 @@ class SecurityConfig {
                     .requestMatchers(
                         "$API_URL/identities", "$API_URL/identities/enable-disable",
 
-                        "$API_URL/stores/create-update", "$API_URL/stores/delete"
+                        "$API_URL/stores/create-update", "$API_URL/stores/delete",
+
+                        "$API_URL/categories/create-update", "$API_URL/categories/delete",
+
+                        "$API_URL/products/create-update", "$API_URL/products/delete",
+
+                        "$API_URL/store-product/add", "$API_URL/store-product/delete"
                     )
                     .hasAnyAuthority(Authority.ADMIN.name)
             }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class CustomUserDetailsService : UserDetailsService {
 
-    final val identityRepository: IdentityRepository
+    private final val identityRepository: IdentityRepository
 
     constructor(identityRepository: IdentityRepository) {
         this.identityRepository = identityRepository

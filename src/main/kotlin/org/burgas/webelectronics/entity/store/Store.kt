@@ -1,21 +1,10 @@
 package org.burgas.webelectronics.entity.store
 
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.NamedAttributeNode
-import jakarta.persistence.NamedEntityGraph
-import jakarta.persistence.OneToMany
-import jakarta.persistence.OneToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
+import org.burgas.webelectronics.entity.BaseEntity
 import org.burgas.webelectronics.entity.address.Address
 import org.burgas.webelectronics.entity.pk.StoreProduct
-import java.util.UUID
+import java.util.*
 
 @Entity
 @Table(name = "store", schema = "public")
@@ -23,10 +12,24 @@ import java.util.UUID
     name = "store-entity-graph",
     attributeNodes = [
         NamedAttributeNode(value = "address"),
-        NamedAttributeNode(value = "storeProducts")
+        NamedAttributeNode(value = "storeProducts", subgraph = "product-subgraph")
+    ],
+    subgraphs = [
+        NamedSubgraph(
+            name = "product-subgraph",
+            attributeNodes = [
+                NamedAttributeNode(value = "product", subgraph = "category-subgraph")
+            ]
+        ),
+        NamedSubgraph(
+            name = "category-subgraph",
+            attributeNodes = [
+                NamedAttributeNode(value = "category")
+            ]
+        )
     ]
 )
-class Store {
+class Store : BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -37,7 +40,7 @@ class Store {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     var address: Address? = null
 
-    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY)
     var storeProducts: MutableList<StoreProduct> = mutableListOf()
 
     constructor()

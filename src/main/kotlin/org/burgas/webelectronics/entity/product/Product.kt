@@ -1,21 +1,10 @@
 package org.burgas.webelectronics.entity.product
 
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.ManyToOne
-import jakarta.persistence.NamedAttributeNode
-import jakarta.persistence.NamedEntityGraph
-import jakarta.persistence.OneToMany
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.burgas.webelectronics.entity.BaseEntity
 import org.burgas.webelectronics.entity.category.Category
 import org.burgas.webelectronics.entity.pk.StoreProduct
-import java.util.UUID
+import java.util.*
 
 @Entity
 @Table(name = "product", schema = "public")
@@ -23,7 +12,21 @@ import java.util.UUID
     name = "product-entity-graph",
     attributeNodes = [
         NamedAttributeNode(value = "category"),
-        NamedAttributeNode(value = "storeProducts")
+        NamedAttributeNode(value = "storeProducts", subgraph = "store-subgraph")
+    ],
+    subgraphs = [
+        NamedSubgraph(
+            name = "store-subgraph",
+            attributeNodes = [
+                NamedAttributeNode(value = "store", subgraph = "address-subgraph"),
+            ]
+        ),
+        NamedSubgraph(
+            name = "address-subgraph",
+            attributeNodes = [
+                NamedAttributeNode(value = "address")
+            ]
+        )
     ]
 )
 class Product : BaseEntity {
@@ -44,7 +47,7 @@ class Product : BaseEntity {
     @Column(name = "price", nullable = false)
     var price: Double = 0.0
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     var storeProducts: MutableList<StoreProduct> = mutableListOf()
 
     constructor()

@@ -22,9 +22,9 @@ import java.util.*
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
 class IdentityService : CrudService<IdentityRequest, Identity, IdentityShortResponse, IdentityFullResponse> {
 
-    final val identityRepository: IdentityRepository
-    final val identityMapper: IdentityMapper
-    final val imageServiceObjectFactory: ObjectFactory<ImageService>
+    private final val identityRepository: IdentityRepository
+    private final val identityMapper: IdentityMapper
+    private final val imageServiceObjectFactory: ObjectFactory<ImageService>
 
     constructor(
         identityRepository: IdentityRepository,

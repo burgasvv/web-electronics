@@ -84,7 +84,7 @@ Host: localhost:9000
 Accept: application/json
 
 ###
-GET /api/v1/stores/by-id?storeId=7ea1918a-2e67-4cc7-b18c-1e8ee581f22c
+GET /api/v1/stores/by-id?storeId=96491fed-3743-4978-a75d-10d9b6c08cf5
 Host: localhost:9000
 Accept: application/json
 
@@ -94,7 +94,7 @@ Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
-X-Csrf-Token: Nd-WgPM8Dqh4TgXJU97tZB5JhV3GnwZ9V8jgT556WE8Zlk0xDLqktsEFOJ1VKDaoYPPZBiwqqD_3rmJQZ63SdvxCPXsh8ygD
+X-Csrf-Token: 77v5SqtJx-oOtisIszEk-ZwswG6RNrvGZOZBLwcCR7l4p-hfioLILJMr8dgjjxhphBwQz_kd7QyhBo_rB4AiTDBjcd0elYlv
 
 {
     "address": {
@@ -106,8 +106,95 @@ X-Csrf-Token: Nd-WgPM8Dqh4TgXJU97tZB5JhV3GnwZ9V8jgT556WE8Zlk0xDLqktsEFOJ1VKDaoYP
 }
 
 ###
-DELETE /api/v1/stores/delete?storeId=7ea1918a-2e67-4cc7-b18c-1e8ee581f22c
+DELETE /api/v1/stores/delete?storeId=dd0809ea-8ee1-41cf-b4ca-3fe4571aebf9
 Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
-X-Csrf-Token: -BczNiJSKxlS46i86nGXRX2OSreFd5AiLcSd9tPZK0WDs9RYwXIBABBrHSx_hZvd2VyjJ0_tZ9W0RvQPHaGvz7HhTnG71rFq
+X-Csrf-Token: xKHRL-Ocaj4tGVtUOopma_s1TpFEKXMkQXyHwQ7cC5Vavs7N9MSySdv5DwsAKzkwCKdSCcIEY6h8TUQJdBqz8T7vPvRtjvb-
+
+
+
+### Category Requests
+
+
+
+###
+GET /api/v1/categories
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/categories/by-id?categoryId=5da6aa00-0954-4c60-a14b-dac4ed0404c6
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/categories/create-update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: bd5llQb2P0HS_mts92hTSue6vQRusIay_MVP9QYHLjiDBTnhCOlc92CSCXH_nVJZk0VnKN-NkGZZgrCfzaR9x2BhHQ7gMQ-D
+
+{
+    "name": "Наушники",
+    "description": "Описание категории Наушники"
+}
+
+###
+DELETE /api/v1/categories/delete?categoryId=da92210c-5c4b-45e9-9ac9-23018a58d9cc
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: bd5llQb2P0HS_mts92hTSue6vQRusIay_MVP9QYHLjiDBTnhCOlc92CSCXH_nVJZk0VnKN-NkGZZgrCfzaR9x2BhHQ7gMQ-D
+
+
+
+### ProductRequests
+
+
+
+###
+GET /api/v1/products
+Host: localhost:9000
+Accept: application/json
+
+###
+GET /api/v1/products/by-id?productId=fc83d5df-33d5-49e8-86d0-331575b815a5
+Host: localhost:9000
+Accept: application/json
+
+###
+POST /api/v1/products/create-update
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: lk6Tciq6gbYiC-nxQ0Gy8hfCBekgIxImbMnt2caY1FUQj--kp373QRmNttUPad_FJWyGynOmKNAXRnYLVKva7ff7smJy7tic
+
+{
+    "name": "M54-320",
+    "categoryId": "5da6aa00-0954-4c60-a14b-dac4ed0404c6",
+    "description": "Описание модели смартфона M54-320",
+    "price": 120340.50
+}
+
+
+
+### Store Product Requests
+
+
+
+###
+POST /api/v1/store-product/add
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: gZGBTb3NGfjx7fJajVP5s0AzsLP7tO6dVbU8X_boYEmDF5cc5KiwK4WvL8rc1ME7un7NhSUCndHLhNqwNtNfPMGJVi3lJfYs
+
+{
+    "storeId": "96491fed-3743-4978-a75d-10d9b6c08cf5",
+    "productId": "fc83d5df-33d5-49e8-86d0-331575b815a5",
+    "amount": 500
+}

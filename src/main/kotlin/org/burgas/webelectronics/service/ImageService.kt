@@ -15,7 +15,7 @@ import java.util.*
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
 class ImageService {
 
-    final val imageRepository: ImageRepository
+    private final val imageRepository: ImageRepository
 
     constructor(imageRepository: ImageRepository) {
         this.imageRepository = imageRepository

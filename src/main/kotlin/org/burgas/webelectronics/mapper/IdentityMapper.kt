@@ -14,8 +14,8 @@ import java.util.*
 @Component
 class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResponse, IdentityFullResponse> {
 
-    final val identityRepository: IdentityRepository
-    final val passwordEncoder: PasswordEncoder
+    private final val identityRepository: IdentityRepository
+    private final val passwordEncoder: PasswordEncoder
 
     constructor(identityRepository: IdentityRepository, passwordEncoder: PasswordEncoder) {
         this.identityRepository = identityRepository
@@ -24,7 +24,6 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
 
     override fun toEntity(request: IdentityRequest): Identity {
         val identityId = this.handleData(request.id, UUID.randomUUID()) as UUID
-        val handleIdentity = Identity()
         return this.identityRepository.findById(identityId)
             .map { identity ->
                 val authority = this.handleData(request.authority, identity.authority) as Authority
@@ -32,7 +31,7 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
                 val firstname = this.handleData(request.firstname, identity.firstname) as String
                 val lastname = this.handleData(request.lastname, identity.lastname) as String
                 val patronymic = this.handleData(request.patronymic, identity.patronymic) as String
-                return@map handleIdentity.apply {
+                Identity().apply {
                     this.id = identity.id
                     this.authority = authority
                     this.email = email
@@ -50,7 +49,7 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
                 val firstname = this.handleDataThrowable(request.firstname, FIRST_NAME_FIELD_EMPTY.message) as String
                 val lastname = this.handleDataThrowable(request.lastname, LAST_NAME_FIELD_EMPTY.message) as String
                 val patronymic = this.handleDataThrowable(request.patronymic, PATRONYMIC_FIELD_EMPTY.message) as String
-                return@orElseGet handleIdentity.apply {
+                Identity().apply {
                     this.authority = authority
                     this.email = email
                     this.pass = passwordEncoder.encode(pass)

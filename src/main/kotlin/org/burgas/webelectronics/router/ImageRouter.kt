@@ -16,7 +16,7 @@ import java.util.UUID
 @Configuration
 class ImageRouter {
 
-    final val imageService: ImageService
+    private final val imageService: ImageService
 
     constructor(imageService: ImageService) {
         this.imageService = imageService

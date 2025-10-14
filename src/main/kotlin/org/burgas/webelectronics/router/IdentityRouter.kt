@@ -17,8 +17,8 @@ import java.util.*
 @Configuration
 class IdentityRouter {
 
-    final val identityService: IdentityService
-    final val identityFilterFunction: IdentityFilterFunction
+    private final val identityService: IdentityService
+    private final val identityFilterFunction: IdentityFilterFunction
 
     constructor(identityService: IdentityService, identityFilterFunction: IdentityFilterFunction) {
         this.identityService = identityService

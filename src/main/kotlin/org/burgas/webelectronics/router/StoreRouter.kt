@@ -1,5 +1,6 @@
 package org.burgas.webelectronics.router
 
+import org.burgas.webelectronics.dto.store.StoreRequest
 import org.burgas.webelectronics.entity.store.Store
 import org.burgas.webelectronics.service.StoreService
 import org.springframework.context.annotation.Bean
@@ -15,7 +16,7 @@ import java.util.UUID
 @Configuration
 class StoreRouter {
 
-    final val storeService: StoreService
+    private final val storeService: StoreService
 
     constructor(storeService: StoreService) {
         this.storeService = storeService
@@ -46,7 +47,7 @@ class StoreRouter {
                 ServerResponse
                     .status(HttpStatus.OK)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .body(this.storeService.createOrUpdate(request.body<Store>()))
+                    .body(this.storeService.createOrUpdate(request.body<StoreRequest>()))
             }
             .DELETE("/api/v1/stores/delete") {
                 request -> this.storeService.delete(UUID.fromString(request.param("storeId").orElseThrow()))
