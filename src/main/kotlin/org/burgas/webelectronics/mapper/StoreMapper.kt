@@ -27,17 +27,16 @@ class StoreMapper : EntityMapper<StoreRequest, Store, StoreShortResponse, StoreF
     }
 
     override fun toEntity(request: StoreRequest): Store {
-        val storeId = this.handleData(request.id, UUID.randomUUID()) as UUID
-        val handleStore = Store()
+        val storeId = request.id ?: UUID.randomUUID()
         return this.storeRepository.findById(storeId)
             .map { store ->
-                handleStore.apply {
+                Store().apply {
                     this.id = store.id
                     this.address = request.address
                 }
             }
             .orElseGet {
-                handleStore.apply {
+                Store().apply {
                     this.address = request.address
                 }
             }

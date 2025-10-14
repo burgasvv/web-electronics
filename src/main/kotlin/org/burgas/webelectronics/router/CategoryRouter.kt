@@ -1,6 +1,8 @@
 package org.burgas.webelectronics.router
 
 import org.burgas.webelectronics.dto.category.CategoryRequest
+import org.burgas.webelectronics.exception.PartNotFoundException
+import org.burgas.webelectronics.message.ImageMessages
 import org.burgas.webelectronics.service.CategoryService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -10,7 +12,7 @@ import org.springframework.web.servlet.function.RouterFunction
 import org.springframework.web.servlet.function.RouterFunctions
 import org.springframework.web.servlet.function.ServerResponse
 import org.springframework.web.servlet.function.body
-import java.util.UUID
+import java.util.*
 
 @Configuration
 class CategoryRouter {
@@ -47,6 +49,31 @@ class CategoryRouter {
             }
             .DELETE("/api/v1/categories/delete") {
                 request -> this.categoryService.delete(UUID.fromString(request.param("categoryId").orElseThrow()))
+                ServerResponse.noContent().build()
+            }
+            .POST("/api/v1/categories/create-image") {
+                request ->
+                this.categoryService.createImage(
+                    UUID.fromString(request.param("categoryId").orElseThrow()),
+                    request.multipartData().asSingleValueMap()["image"] ?:
+                    throw PartNotFoundException(ImageMessages.PART_NOPT_FOUND.message)
+                )
+                ServerResponse.noContent().build()
+            }
+            .PUT("/api/v1/categories/change-image") {
+                request ->
+                this.categoryService.createImage(
+                    UUID.fromString(request.param("categoryId").orElseThrow()),
+                    request.multipartData().asSingleValueMap()["image"] ?:
+                    throw PartNotFoundException(ImageMessages.IMAGE_NOT_FOUND.message)
+                )
+                ServerResponse.noContent().build()
+            }
+            .DELETE("/api/v1/categories/delete-image") {
+                request ->
+                this.categoryService.deleteImage(
+                    UUID.fromString(request.param("categoryId").orElseThrow())
+                )
                 ServerResponse.noContent().build()
             }
             .build()

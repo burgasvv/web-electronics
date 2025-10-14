@@ -3,9 +3,9 @@ package org.burgas.webelectronics.mapper
 import org.burgas.webelectronics.dto.product.ProductFullResponse
 import org.burgas.webelectronics.dto.product.ProductRequest
 import org.burgas.webelectronics.dto.product.ProductShortResponse
-import org.burgas.webelectronics.entity.category.Category
 import org.burgas.webelectronics.entity.product.Product
 import org.burgas.webelectronics.entity.store.Store
+import org.burgas.webelectronics.exception.FieldEmptyException
 import org.burgas.webelectronics.message.ProductMessages.*
 import org.burgas.webelectronics.repository.CategoryRepository
 import org.burgas.webelectronics.repository.ProductRepository
@@ -46,15 +46,15 @@ class ProductMapper : EntityMapper<ProductRequest, Product, ProductShortResponse
     }
 
     override fun toEntity(request: ProductRequest): Product {
-        val productId = this.handleData(request.id, UUID.randomUUID()) as UUID
+        val productId = request.id ?: UUID.randomUUID()
         return this.productRepository.findById(productId)
             .map { product ->
-                val categoryId = this.handleData(request.categoryId, UUID.randomUUID()) as UUID
+                val categoryId = request.categoryId ?: UUID.randomUUID()
                 val findCategory = this.getCategoryRepository().findById(categoryId).orElse(null)
-                val category = this.handleData(findCategory, product.category) as Category
-                val name = this.handleData(request.name, product.name) as String
-                val description = this.handleData(request.description, product.description) as String
-                val price = this.handleData(request.price, product.price) as Double
+                val category = findCategory ?: product.category
+                val name = request.name ?: product.name
+                val description = request.description ?: product.description
+                val price = request.price ?: product.price
                 Product().apply {
                     this.id = product.id
                     this.category = category
@@ -64,13 +64,12 @@ class ProductMapper : EntityMapper<ProductRequest, Product, ProductShortResponse
                 }
             }
             .orElseGet {
-                val categoryId = this.handleData(request.categoryId, UUID.randomUUID()) as UUID
+                val categoryId = request.categoryId ?: UUID.randomUUID()
                 val findCategory = this.getCategoryRepository().findById(categoryId).orElse(null)
-                val category = this.handleDataThrowable(findCategory, CATEGORY_FIELD_EMPTY.message)
-                val name = this.handleDataThrowable(request.name, NAME_FIELD_EMPTY.message) as String
-                val description =
-                    this.handleDataThrowable(request.description, DESCRIPTION_FIELD_EMPTY.message) as String
-                val price = this.handleDataThrowable(request.price, PRICE_FIELD_EMPTY.message) as Double
+                val category = findCategory ?: throw FieldEmptyException(CATEGORY_FIELD_EMPTY.message)
+                val name = request.name ?: throw FieldEmptyException(NAME_FIELD_EMPTY.message)
+                val description = request.description ?: throw FieldEmptyException(DESCRIPTION_FIELD_EMPTY.message)
+                val price = request.price ?: throw FieldEmptyException(PRICE_FIELD_EMPTY.message)
                 Product().apply {
                     this.category = category
                     this.name = name
@@ -88,7 +87,8 @@ class ProductMapper : EntityMapper<ProductRequest, Product, ProductShortResponse
                 .orElse(null),
             name = entity.name,
             description = entity.description,
-            price = entity.price
+            price = entity.price,
+            image = entity.image
         )
     }
 
@@ -101,6 +101,7 @@ class ProductMapper : EntityMapper<ProductRequest, Product, ProductShortResponse
             name = entity.name,
             description = entity.description,
             price = entity.price,
+            image = entity.image,
             stores = entity.storeProducts
                 .map { storeProduct -> storeProduct.store as Store }
                 .map { store -> this.getStoreMapper().toShortResponse(store) }

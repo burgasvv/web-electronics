@@ -58,7 +58,7 @@ class Identity : BaseEntity, UserDetails {
     @Column(name = "enabled", nullable = false)
     var enabled: Boolean = true
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     var image: Image? = null
 

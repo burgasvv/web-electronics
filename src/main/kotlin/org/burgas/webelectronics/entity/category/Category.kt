@@ -2,6 +2,7 @@ package org.burgas.webelectronics.entity.category
 
 import jakarta.persistence.*
 import org.burgas.webelectronics.entity.BaseEntity
+import org.burgas.webelectronics.entity.image.Image
 import org.burgas.webelectronics.entity.product.Product
 import java.util.*
 
@@ -10,6 +11,7 @@ import java.util.*
 @NamedEntityGraph(
     name = "category-entity-graph",
     attributeNodes = [
+        NamedAttributeNode("image"),
         NamedAttributeNode(value = "products")
     ]
 )
@@ -24,6 +26,10 @@ class Category : BaseEntity {
 
     @Column(name = "description", nullable = false, unique = true)
     lateinit var description: String
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    var image: Image? = null
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     var products: MutableList<Product> = mutableListOf()

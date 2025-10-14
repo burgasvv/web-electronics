@@ -3,6 +3,7 @@ package org.burgas.webelectronics.entity.product
 import jakarta.persistence.*
 import org.burgas.webelectronics.entity.BaseEntity
 import org.burgas.webelectronics.entity.category.Category
+import org.burgas.webelectronics.entity.image.Image
 import org.burgas.webelectronics.entity.pk.StoreProduct
 import java.util.*
 
@@ -12,6 +13,7 @@ import java.util.*
     name = "product-entity-graph",
     attributeNodes = [
         NamedAttributeNode(value = "category"),
+        NamedAttributeNode(value = "image"),
         NamedAttributeNode(value = "storeProducts", subgraph = "store-subgraph")
     ],
     subgraphs = [
@@ -46,6 +48,10 @@ class Product : BaseEntity {
 
     @Column(name = "price", nullable = false)
     var price: Double = 0.0
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    var image: Image? = null
 
     @OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
     var storeProducts: MutableList<StoreProduct> = mutableListOf()

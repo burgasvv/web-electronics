@@ -11,5 +11,5 @@ create table if not exists identity (
     lastname varchar not null ,
     patronymic varchar not null ,
     enabled boolean not null ,
-    image_id uuid references image(id) on delete set null on update cascade
+    image_id uuid unique references image(id) on delete set null on update cascade
 )

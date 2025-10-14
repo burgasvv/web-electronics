@@ -7,5 +7,6 @@ create table if not exists product (
     category_id uuid references category(id) on delete set null on update cascade ,
     name varchar unique not null ,
     description text unique not null ,
-    price decimal not null default 0 check ( price >= 0 )
+    price decimal not null default 0 check ( price >= 0 ) ,
+    image_id uuid unique references image(id) on delete set null on update cascade
 )

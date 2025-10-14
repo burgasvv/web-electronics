@@ -80,10 +80,12 @@ class SecurityConfig {
                         "$API_URL/stores/create-update", "$API_URL/stores/delete",
 
                         "$API_URL/categories/create-update", "$API_URL/categories/delete",
+                        "$API_URL/categories/create-image", "$API_URL/categories/change-image", "$API_URL/categories/delete-image",
 
                         "$API_URL/products/create-update", "$API_URL/products/delete",
+                        "$API_URL/products/create-image", "$API_URL/products/change-image", "$API_URL/products/delete-image",
 
-                        "$API_URL/store-product/add", "$API_URL/store-product/delete"
+                        "$API_URL/store-product/add", "$API_URL/store-product/delete",
                     )
                     .hasAnyAuthority(Authority.ADMIN.name)
             }

@@ -2,6 +2,7 @@ package org.burgas.webelectronics.dto.product
 
 import org.burgas.webelectronics.dto.Response
 import org.burgas.webelectronics.dto.category.CategoryShortResponse
+import org.burgas.webelectronics.entity.image.Image
 import java.util.UUID
 
 data class ProductShortResponse(
@@ -9,5 +10,6 @@ data class ProductShortResponse(
     val category: CategoryShortResponse? = null,
     val name: String? = null,
     val description: String? = null,
-    val price: Double? = null
+    val price: Double? = null,
+    val image: Image? = null
 ) : Response()

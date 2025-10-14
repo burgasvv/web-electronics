@@ -3,8 +3,8 @@ package org.burgas.webelectronics.mapper
 import org.burgas.webelectronics.dto.identity.IdentityFullResponse
 import org.burgas.webelectronics.dto.identity.IdentityRequest
 import org.burgas.webelectronics.dto.identity.IdentityShortResponse
-import org.burgas.webelectronics.entity.identity.Authority
 import org.burgas.webelectronics.entity.identity.Identity
+import org.burgas.webelectronics.exception.FieldEmptyException
 import org.burgas.webelectronics.message.IdentityMessages.*
 import org.burgas.webelectronics.repository.IdentityRepository
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -23,14 +23,14 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
     }
 
     override fun toEntity(request: IdentityRequest): Identity {
-        val identityId = this.handleData(request.id, UUID.randomUUID()) as UUID
+        val identityId = request.id ?: UUID.randomUUID()
         return this.identityRepository.findById(identityId)
             .map { identity ->
-                val authority = this.handleData(request.authority, identity.authority) as Authority
-                val email = this.handleData(request.email, identity.email) as String
-                val firstname = this.handleData(request.firstname, identity.firstname) as String
-                val lastname = this.handleData(request.lastname, identity.lastname) as String
-                val patronymic = this.handleData(request.patronymic, identity.patronymic) as String
+                val authority = request.authority ?: identity.authority
+                val email = request.email ?: identity.email
+                val firstname = request.firstname ?: identity.firstname
+                val lastname = request.lastname ?: identity.lastname
+                val patronymic = request.patronymic ?: identity.patronymic
                 Identity().apply {
                     this.id = identity.id
                     this.authority = authority
@@ -43,12 +43,12 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
                 }
             }
             .orElseGet {
-                val authority = this.handleDataThrowable(request.authority, AUTHORITY_FIELD_EMPTY.message) as Authority
-                val email = this.handleDataThrowable(request.email, EMAIL_FIELD_EMPTY.message) as String
-                val pass = this.handleDataThrowable(request.pass, PASSWORD_FIELD_EMPTY.message) as String
-                val firstname = this.handleDataThrowable(request.firstname, FIRST_NAME_FIELD_EMPTY.message) as String
-                val lastname = this.handleDataThrowable(request.lastname, LAST_NAME_FIELD_EMPTY.message) as String
-                val patronymic = this.handleDataThrowable(request.patronymic, PATRONYMIC_FIELD_EMPTY.message) as String
+                val authority = request.authority ?: throw FieldEmptyException(AUTHORITY_FIELD_EMPTY.message)
+                val email = request.email ?: throw FieldEmptyException(EMAIL_FIELD_EMPTY.message)
+                val pass = request.pass ?: throw FieldEmptyException(PASSWORD_FIELD_EMPTY.message)
+                val firstname = request.firstname ?: throw FieldEmptyException(FIRST_NAME_FIELD_EMPTY.message)
+                val lastname = request.lastname ?: throw FieldEmptyException(LAST_NAME_FIELD_EMPTY.message)
+                val patronymic = request.patronymic ?: throw FieldEmptyException(PATRONYMIC_FIELD_EMPTY.message)
                 Identity().apply {
                     this.authority = authority
                     this.email = email

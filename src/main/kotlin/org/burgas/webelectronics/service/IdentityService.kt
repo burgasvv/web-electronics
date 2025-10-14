@@ -101,23 +101,17 @@ class IdentityService : CrudService<IdentityRequest, Identity, IdentityShortResp
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     fun changeImage(identityId: UUID, part: Part) {
         val identity = this.findEntity(identityId)
-        if (identity.image != null) {
-            val image = identity.image as Image
-            this.getImageService().changeImage(image.id, part)
-        } else {
-            throw ImageNotFoundException(ImageMessages.IMAGE_NOT_FOUND.message)
-        }
+        val image = identity.image ?: throw ImageNotFoundException(ImageMessages.IMAGE_NOT_FOUND.message)
+        this.getImageService().changeImage(image.id, part)
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     fun deleteImage(identityId: UUID) {
         val identity = this.findEntity(identityId)
-        if (identity.image != null) {
-            val image = identity.image as Image
-            identity.image = null
-            this.getImageService().deleteImage(image.id)
-        } else {
-            throw ImageNotFoundException(ImageMessages.IMAGE_NOT_FOUND.message)
+        val image = identity.image ?: throw ImageNotFoundException(ImageMessages.IMAGE_NOT_FOUND.message)
+        identity.apply {
+            this.image = null
         }
+        this.getImageService().deleteImage(image.id)
     }
 }

@@ -4,6 +4,7 @@ import org.burgas.webelectronics.dto.category.CategoryFullResponse
 import org.burgas.webelectronics.dto.category.CategoryRequest
 import org.burgas.webelectronics.dto.category.CategoryShortResponse
 import org.burgas.webelectronics.entity.category.Category
+import org.burgas.webelectronics.exception.FieldEmptyException
 import org.burgas.webelectronics.message.CategoryMessages.DESCRIPTION_FIELD_EMPTY
 import org.burgas.webelectronics.message.CategoryMessages.NAME_FIELD_EMPTY
 import org.burgas.webelectronics.repository.CategoryRepository
@@ -27,11 +28,11 @@ class CategoryMapper : EntityMapper<CategoryRequest, Category, CategoryShortResp
     }
 
     override fun toEntity(request: CategoryRequest): Category {
-        val categoryId = this.handleData(request.id, UUID.randomUUID()) as UUID
+        val categoryId = request.id ?: UUID.randomUUID()
         return this.categoryRepository.findById(categoryId)
             .map { category ->
-                val name = this.handleData(request.name, category.name) as String
-                val description = this.handleData(request.description, category.description) as String
+                val name = request.name ?: category.name
+                val description = request.description ?: category.description
                 Category().apply {
                     this.id = category.id
                     this.name = name
@@ -39,9 +40,8 @@ class CategoryMapper : EntityMapper<CategoryRequest, Category, CategoryShortResp
                 }
             }
             .orElseGet {
-                val name = this.handleDataThrowable(request.name, NAME_FIELD_EMPTY.message) as String
-                val description = this.handleDataThrowable(request.description,
-                    DESCRIPTION_FIELD_EMPTY.message) as String
+                val name = request.name ?: throw FieldEmptyException(NAME_FIELD_EMPTY.message)
+                val description = request.description ?: throw FieldEmptyException(DESCRIPTION_FIELD_EMPTY.message)
                 Category().apply {
                     this.name = name
                     this.description = description
@@ -53,7 +53,8 @@ class CategoryMapper : EntityMapper<CategoryRequest, Category, CategoryShortResp
         return CategoryShortResponse(
             id = entity.id,
             name = entity.name,
-            description = entity.description
+            description = entity.description,
+            image = entity.image
         )
     }
 
@@ -62,6 +63,7 @@ class CategoryMapper : EntityMapper<CategoryRequest, Category, CategoryShortResp
             id = entity.id,
             name = entity.name,
             description = entity.description,
+            image = entity.image,
             products = entity.products
                 .map { product -> this.getProductMapper().toShortResponse(product) }
                 .toList()
