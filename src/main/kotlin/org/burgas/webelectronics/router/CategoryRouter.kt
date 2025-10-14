@@ -62,7 +62,7 @@ class CategoryRouter {
             }
             .PUT("/api/v1/categories/change-image") {
                 request ->
-                this.categoryService.createImage(
+                this.categoryService.changeImage(
                     UUID.fromString(request.param("categoryId").orElseThrow()),
                     request.multipartData().asSingleValueMap()["image"] ?:
                     throw PartNotFoundException(ImageMessages.IMAGE_NOT_FOUND.message)

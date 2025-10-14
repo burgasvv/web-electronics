@@ -1,25 +1,11 @@
 package org.burgas.webelectronics.entity.identity
 
-import com.fasterxml.jackson.annotation.JsonInclude
-import jakarta.persistence.CascadeType
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.EnumType
-import jakarta.persistence.Enumerated
-import jakarta.persistence.FetchType
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.JoinColumn
-import jakarta.persistence.NamedAttributeNode
-import jakarta.persistence.NamedEntityGraph
-import jakarta.persistence.OneToOne
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.burgas.webelectronics.entity.BaseEntity
 import org.burgas.webelectronics.entity.image.Image
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import java.util.UUID
+import java.util.*
 
 @Entity
 @Table(name = "identity", schema = "public")

@@ -5,7 +5,6 @@ import org.burgas.webelectronics.dto.identity.IdentityFullResponse
 import org.burgas.webelectronics.dto.identity.IdentityRequest
 import org.burgas.webelectronics.dto.identity.IdentityShortResponse
 import org.burgas.webelectronics.entity.identity.Identity
-import org.burgas.webelectronics.entity.image.Image
 import org.burgas.webelectronics.exception.*
 import org.burgas.webelectronics.mapper.IdentityMapper
 import org.burgas.webelectronics.message.IdentityMessages

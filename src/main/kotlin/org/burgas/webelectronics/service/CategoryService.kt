@@ -5,7 +5,6 @@ import org.burgas.webelectronics.dto.category.CategoryFullResponse
 import org.burgas.webelectronics.dto.category.CategoryRequest
 import org.burgas.webelectronics.dto.category.CategoryShortResponse
 import org.burgas.webelectronics.entity.category.Category
-import org.burgas.webelectronics.entity.image.Image
 import org.burgas.webelectronics.exception.CategoryNotFoundException
 import org.burgas.webelectronics.exception.ImageNotFoundException
 import org.burgas.webelectronics.mapper.CategoryMapper
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
+import java.util.*
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
