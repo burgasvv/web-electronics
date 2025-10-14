@@ -1,7 +1,6 @@
 package org.burgas.webelectronics.router
 
 import org.burgas.webelectronics.dto.store.StoreRequest
-import org.burgas.webelectronics.entity.store.Store
 import org.burgas.webelectronics.service.StoreService
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -11,7 +10,7 @@ import org.springframework.web.servlet.function.RouterFunction
 import org.springframework.web.servlet.function.RouterFunctions
 import org.springframework.web.servlet.function.ServerResponse
 import org.springframework.web.servlet.function.body
-import java.util.UUID
+import java.util.*
 
 @Configuration
 class StoreRouter {
