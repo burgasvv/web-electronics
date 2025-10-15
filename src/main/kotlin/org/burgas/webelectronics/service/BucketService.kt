@@ -9,8 +9,8 @@ import org.burgas.webelectronics.exception.NotEnoughProductAmountException
 import org.burgas.webelectronics.exception.ProductAmountNotFoundException
 import org.burgas.webelectronics.mapper.BucketMapper
 import org.burgas.webelectronics.message.BucketMessages
-import org.burgas.webelectronics.message.ProductMessages
-import org.burgas.webelectronics.message.ProductMessages.*
+import org.burgas.webelectronics.message.ProductMessages.PRODUCT_AMOUNT_NOT_ENOUGH
+import org.burgas.webelectronics.message.ProductMessages.PRODUCT_AMOUNT_NOT_FOUND
 import org.burgas.webelectronics.repository.BucketRepository
 import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Service

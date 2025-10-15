@@ -1,7 +1,6 @@
 package org.burgas.webelectronics.dto.product
 
 import org.burgas.webelectronics.dto.Response
-import org.burgas.webelectronics.dto.bucket.BucketShortResponse
 import org.burgas.webelectronics.dto.category.CategoryShortResponse
 import org.burgas.webelectronics.dto.store.StoreShortResponse
 import org.burgas.webelectronics.entity.image.Image
