@@ -12,15 +12,21 @@ import java.util.*
 @NamedEntityGraph(
     name = "product-entity-graph",
     attributeNodes = [
-        NamedAttributeNode(value = "category"),
+        NamedAttributeNode(value = "category", subgraph = "category-image-subgraph"),
         NamedAttributeNode(value = "image"),
         NamedAttributeNode(value = "storeProducts", subgraph = "store-subgraph")
     ],
     subgraphs = [
         NamedSubgraph(
+            name = "category-image-subgraph",
+            attributeNodes = [
+                NamedAttributeNode(value = "image")
+            ]
+        ),
+        NamedSubgraph(
             name = "store-subgraph",
             attributeNodes = [
-                NamedAttributeNode(value = "store", subgraph = "address-subgraph"),
+                NamedAttributeNode(value = "store", subgraph = "address-subgraph")
             ]
         ),
         NamedSubgraph(
@@ -58,13 +64,13 @@ class Product : BaseEntity {
 
     constructor()
 
-    @Suppress("unused")
     constructor(
         id: UUID,
         category: Category?,
         name: String,
         description: String,
         price: Double,
+        image: Image?,
         storeProducts: MutableList<StoreProduct>
     ) {
         this.id = id
@@ -72,6 +78,7 @@ class Product : BaseEntity {
         this.name = name
         this.description = description
         this.price = price
+        this.image = image
         this.storeProducts = storeProducts
     }
 }

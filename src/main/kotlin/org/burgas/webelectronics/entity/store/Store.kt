@@ -18,13 +18,25 @@ import java.util.*
         NamedSubgraph(
             name = "product-subgraph",
             attributeNodes = [
-                NamedAttributeNode(value = "product", subgraph = "category-subgraph")
+                NamedAttributeNode(value = "product", subgraph = "product-category-image-subgraph")
             ]
         ),
         NamedSubgraph(
-            name = "category-subgraph",
+            name = "product-category-image-subgraph",
             attributeNodes = [
-                NamedAttributeNode(value = "category")
+                NamedAttributeNode(value = "category", subgraph = "category-image-subgraph")
+            ]
+        ),
+        NamedSubgraph(
+            name = "product-category-image-subgraph",
+            attributeNodes = [
+                NamedAttributeNode(value = "image")
+            ]
+        ),
+        NamedSubgraph(
+            name = "category-image-subgraph",
+            attributeNodes = [
+                NamedAttributeNode(value = "image")
             ]
         )
     ]

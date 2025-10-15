@@ -23,7 +23,7 @@ Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
 
 ###
-GET /api/v1/identities/by-id?identityId=68e4b3d5-0475-4c57-9d75-062c864e2828
+GET /api/v1/identities/by-id?identityId=c13c7100-5249-46a5-a9e8-91160806377c
 Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
@@ -33,11 +33,11 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: e2vn6Q0lAG_DhaZ4z6DcAOUhzwRzvzXSJV8tSPfDQ_5U68DDQlrW3j0dYQvu58cero3oMoNC4j1BiVH_QWgeK8HxIJ9nj_Sm
+X-Csrf-Token: ML00SD2gU9dgnlfH_DUgwXbLDKMwUXiowm-JKe9kIePy794lB4UBKlmQZbJNqG7zzRgU90b4IZoBM0iFoQu6HtZVFYCQju0S
 
 {
     "authority": "ADMIN",
-    "email": "burgvv@gmail.com",
+    "email": "burgasvv@gmail.com",
     "pass": "burgasvv",
     "firstname": "Бургас",
     "lastname": "Вячеслав",
@@ -84,7 +84,7 @@ Host: localhost:9000
 Accept: application/json
 
 ###
-GET /api/v1/stores/by-id?storeId=96491fed-3743-4978-a75d-10d9b6c08cf5
+GET /api/v1/stores/by-id?storeId=816954cf-0d9e-443c-8de0-1bdd2c53678a
 Host: localhost:9000
 Accept: application/json
 
@@ -94,7 +94,7 @@ Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
-X-Csrf-Token: 77v5SqtJx-oOtisIszEk-ZwswG6RNrvGZOZBLwcCR7l4p-hfioLILJMr8dgjjxhphBwQz_kd7QyhBo_rB4AiTDBjcd0elYlv
+X-Csrf-Token: 8EJ4uSjZPm2SPKRQ0oaPYbo6gpO8rrA_KVzl1DLx6lO06GoClXFPjU3pDQi_XpVo5Ku7VdxYr6qEyocSEG7ctQGU32vQ2l81
 
 {
     "address": {
@@ -124,7 +124,7 @@ Host: localhost:9000
 Accept: application/json
 
 ###
-GET /api/v1/categories/by-id?categoryId=5da6aa00-0954-4c60-a14b-dac4ed0404c6
+GET /api/v1/categories/by-id?categoryId=8f8f859d-b833-4dba-b006-b916b4bdf329
 Host: localhost:9000
 Accept: application/json
 
@@ -160,7 +160,7 @@ Host: localhost:9000
 Accept: application/json
 
 ###
-GET /api/v1/products/by-id?productId=fc83d5df-33d5-49e8-86d0-331575b815a5
+GET /api/v1/products/by-id?productId=51c12db4-be8e-4d73-bb17-4093ac77427c
 Host: localhost:9000
 Accept: application/json
 
@@ -170,13 +170,13 @@ Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
-X-Csrf-Token: lk6Tciq6gbYiC-nxQ0Gy8hfCBekgIxImbMnt2caY1FUQj--kp373QRmNttUPad_FJWyGynOmKNAXRnYLVKva7ff7smJy7tic
+X-Csrf-Token: 8EJ4uSjZPm2SPKRQ0oaPYbo6gpO8rrA_KVzl1DLx6lO06GoClXFPjU3pDQi_XpVo5Ku7VdxYr6qEyocSEG7ctQGU32vQ2l81
 
 {
-    "name": "M54-320",
-    "categoryId": "5da6aa00-0954-4c60-a14b-dac4ed0404c6",
-    "description": "Описание модели смартфона M54-320",
-    "price": 120340.50
+    "name": "NZ-350",
+    "categoryId": "8f8f859d-b833-4dba-b006-b916b4bdf329",
+    "description": "Описание модели смартфона NZ-350",
+    "price": 85900.0
 }
 
 
@@ -191,10 +191,49 @@ Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
-X-Csrf-Token: gZGBTb3NGfjx7fJajVP5s0AzsLP7tO6dVbU8X_boYEmDF5cc5KiwK4WvL8rc1ME7un7NhSUCndHLhNqwNtNfPMGJVi3lJfYs
+X-Csrf-Token: sUcA4mekg-aN1RtFncpJgiexis6euNyn8YulUEVbr-MlJfGQ1HQ31gKUsIOgtyp9q-d9tkHTp_em3OuKyLmcMXY-mttBF8Sn
 
 {
-    "storeId": "96491fed-3743-4978-a75d-10d9b6c08cf5",
-    "productId": "fc83d5df-33d5-49e8-86d0-331575b815a5",
-    "amount": 500
+    "storeId": "816954cf-0d9e-443c-8de0-1bdd2c53678a",
+    "productId": "51c12db4-be8e-4d73-bb17-4093ac77427c",
+    "amount": 60
+}
+
+
+
+### Bucket Requests
+
+
+
+###
+GET /api/v1/buckets/by-id?bucketId=03bb1a64-8e9f-47c4-970d-211707e44a7a
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+
+###
+POST /api/v1/buckets/add-product
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: yC1V_UERexbbJu2K6pl_wAvo2c9ta85zpa9LH3TUEOuty3E2_RVkxHV0HSH2RY_p2rRLoTOK9K1fDq9els16fBa1INyUrUIC
+
+{
+    "bucketId": "03bb1a64-8e9f-47c4-970d-211707e44a7a",
+    "productId": "51c12db4-be8e-4d73-bb17-4093ac77427c",
+    "amount": 1
+}
+
+###
+DELETE /api/v1/buckets/remove-product
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: c_HY-9MAnri8s26gxDRwkRkeFC4XtD7AFRUY86UlTPutCkL-Rsnpwudl-I-R0AzD9BlE8CF8OUwl0V_tJncpkMdEfMyUbHHK
+
+{
+    "bucketId": "03bb1a64-8e9f-47c4-970d-211707e44a7a",
+    "productId": "51c12db4-be8e-4d73-bb17-4093ac77427c"
 }

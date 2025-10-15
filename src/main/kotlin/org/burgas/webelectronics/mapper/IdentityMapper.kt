@@ -7,6 +7,7 @@ import org.burgas.webelectronics.entity.identity.Identity
 import org.burgas.webelectronics.exception.FieldEmptyException
 import org.burgas.webelectronics.message.IdentityMessages.*
 import org.burgas.webelectronics.repository.IdentityRepository
+import org.springframework.beans.factory.ObjectFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.util.*
@@ -16,10 +17,20 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
 
     private final val identityRepository: IdentityRepository
     private final val passwordEncoder: PasswordEncoder
+    private final val bucketMapperObjectFactory: ObjectFactory<BucketMapper>
 
-    constructor(identityRepository: IdentityRepository, passwordEncoder: PasswordEncoder) {
+    constructor(
+        identityRepository: IdentityRepository,
+        passwordEncoder: PasswordEncoder,
+        bucketMapperObjectFactory: ObjectFactory<BucketMapper>
+    ) {
         this.identityRepository = identityRepository
         this.passwordEncoder = passwordEncoder
+        this.bucketMapperObjectFactory = bucketMapperObjectFactory
+    }
+
+    private fun getBucketMapper(): BucketMapper {
+        return bucketMapperObjectFactory.`object`
     }
 
     override fun toEntity(request: IdentityRequest): Identity {
@@ -40,6 +51,7 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
                     this.lastname = lastname
                     this.patronymic = patronymic
                     this.enabled = identity.enabled
+                    this.bucket = identity.bucket
                 }
             }
             .orElseGet {
@@ -85,7 +97,10 @@ class IdentityMapper : EntityMapper<IdentityRequest, Identity, IdentityShortResp
             lastname = entity.lastname,
             patronymic = entity.patronymic,
             enabled = entity.enabled,
-            image = entity.image
+            image = entity.image,
+            bucket = Optional.ofNullable(entity.bucket)
+                .map { bucket -> this.getBucketMapper().toShortResponse(bucket) }
+                .orElse(null)
         )
     }
 }

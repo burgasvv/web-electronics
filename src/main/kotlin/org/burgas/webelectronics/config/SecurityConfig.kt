@@ -70,7 +70,9 @@ class SecurityConfig {
                         "$API_URL/identities/by-id", "$API_URL/identities/update",
                         "$API_URL/identities/delete", "$API_URL/identities/change-password",
                         "$API_URL/identities/create-image", "$API_URL/identities/change-image",
-                        "$API_URL/identities/delete-image"
+                        "$API_URL/identities/delete-image",
+
+                        "$API_URL/buckets/by-id", "$API_URL/buckets/add-product", "$API_URL/buckets/remove-product",
                     )
                     .hasAnyAuthority(Authority.ADMIN.name, Authority.USER.name)
 

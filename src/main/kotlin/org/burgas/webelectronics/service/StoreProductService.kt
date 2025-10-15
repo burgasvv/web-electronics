@@ -2,12 +2,14 @@ package org.burgas.webelectronics.service
 
 import org.burgas.webelectronics.dto.pk.StoreProductFullRequest
 import org.burgas.webelectronics.dto.pk.StoreProductShortRequest
+import org.burgas.webelectronics.entity.pk.StoreProduct
 import org.burgas.webelectronics.mapper.StoreProductMapper
 import org.burgas.webelectronics.repository.StoreProductRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
@@ -19,6 +21,10 @@ class StoreProductService {
     constructor(storeProductRepository: StoreProductRepository, storeProductMapper: StoreProductMapper) {
         this.storeProductRepository = storeProductRepository
         this.storeProductMapper = storeProductMapper
+    }
+
+    fun findByProductId(productId: UUID): List<StoreProduct> {
+        return this.storeProductRepository.findStoreProductsByProductId(productId)
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)

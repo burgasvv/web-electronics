@@ -4,6 +4,7 @@ import jakarta.servlet.http.Part
 import org.burgas.webelectronics.dto.identity.IdentityFullResponse
 import org.burgas.webelectronics.dto.identity.IdentityRequest
 import org.burgas.webelectronics.dto.identity.IdentityShortResponse
+import org.burgas.webelectronics.entity.bucket.Bucket
 import org.burgas.webelectronics.entity.identity.Identity
 import org.burgas.webelectronics.exception.*
 import org.burgas.webelectronics.mapper.IdentityMapper
@@ -56,9 +57,15 @@ class IdentityService : CrudService<IdentityRequest, Identity, IdentityShortResp
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     override fun createOrUpdate(request: IdentityRequest): IdentityFullResponse {
-        return this.identityMapper.toFullResponse(
-            identityRepository.save(this.identityMapper.toEntity(request))
-        )
+        val identity = identityRepository.save(this.identityMapper.toEntity(request))
+        val bucket = Bucket().apply {
+            this.identity = identity
+            this.balance = 0.0
+        }
+        identity.apply {
+            this.bucket = bucket
+        }
+        return this.identityMapper.toFullResponse(identity)
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)

@@ -12,7 +12,16 @@ import java.util.*
     name = "category-entity-graph",
     attributeNodes = [
         NamedAttributeNode("image"),
-        NamedAttributeNode(value = "products")
+        NamedAttributeNode(value = "products", subgraph = "products-category-image-subgraph")
+    ],
+    subgraphs = [
+        NamedSubgraph(
+            name = "products-category-image-subgraph",
+            attributeNodes = [
+                NamedAttributeNode("image"),
+                NamedAttributeNode("category"),
+            ]
+        )
     ]
 )
 class Category : BaseEntity {

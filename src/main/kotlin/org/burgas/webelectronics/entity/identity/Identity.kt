@@ -2,6 +2,7 @@ package org.burgas.webelectronics.entity.identity
 
 import jakarta.persistence.*
 import org.burgas.webelectronics.entity.BaseEntity
+import org.burgas.webelectronics.entity.bucket.Bucket
 import org.burgas.webelectronics.entity.image.Image
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -12,7 +13,8 @@ import java.util.*
 @NamedEntityGraph(
     name = "identity-entity-graph",
     attributeNodes = [
-        NamedAttributeNode(value = "image")
+        NamedAttributeNode(value = "image"),
+        NamedAttributeNode(value = "bucket")
     ]
 )
 class Identity : BaseEntity, UserDetails {
@@ -44,6 +46,9 @@ class Identity : BaseEntity, UserDetails {
     @Column(name = "enabled", nullable = false)
     var enabled: Boolean = true
 
+    @OneToOne(mappedBy = "identity", cascade = [CascadeType.ALL])
+    var bucket: Bucket? = null
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     var image: Image? = null
@@ -60,6 +65,7 @@ class Identity : BaseEntity, UserDetails {
         lastname: String,
         patronymic: String,
         enabled: Boolean,
+        bucket: Bucket?,
         image: Image?
     ) {
         this.id = id
@@ -70,6 +76,7 @@ class Identity : BaseEntity, UserDetails {
         this.lastname = lastname
         this.patronymic = patronymic
         this.enabled = enabled
+        this.bucket = bucket
         this.image = image
     }
 
