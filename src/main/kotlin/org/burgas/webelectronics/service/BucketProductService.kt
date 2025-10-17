@@ -11,12 +11,10 @@ import org.burgas.webelectronics.mapper.BucketProductMapper
 import org.burgas.webelectronics.message.BucketProductMessages
 import org.burgas.webelectronics.message.ProductMessages
 import org.burgas.webelectronics.repository.BucketProductRepository
-import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
-import java.util.UUID
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
@@ -24,20 +22,10 @@ class BucketProductService {
 
     final val bucketProductRepository: BucketProductRepository
     final val bucketProductMapper: BucketProductMapper
-    final val bucketServiceObjectFactory: ObjectFactory<BucketService>
 
-    constructor(
-        bucketProductRepository: BucketProductRepository,
-        bucketProductMapper: BucketProductMapper,
-        bucketServiceObjectFactory: ObjectFactory<BucketService>
-    ) {
+    constructor(bucketProductRepository: BucketProductRepository, bucketProductMapper: BucketProductMapper) {
         this.bucketProductRepository = bucketProductRepository
         this.bucketProductMapper = bucketProductMapper
-        this.bucketServiceObjectFactory = bucketServiceObjectFactory
-    }
-
-    private fun getBucketService(): BucketService {
-        return bucketServiceObjectFactory.getObject()
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
