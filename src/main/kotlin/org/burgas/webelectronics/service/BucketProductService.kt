@@ -2,17 +2,21 @@ package org.burgas.webelectronics.service
 
 import org.burgas.webelectronics.dto.pk.BucketProductFullRequest
 import org.burgas.webelectronics.dto.pk.BucketProductShortRequest
+import org.burgas.webelectronics.entity.bucket.Bucket
 import org.burgas.webelectronics.entity.pk.BucketProduct
+import org.burgas.webelectronics.entity.product.Product
 import org.burgas.webelectronics.exception.BucketProductAmountException
 import org.burgas.webelectronics.exception.ProductNotFoundException
 import org.burgas.webelectronics.mapper.BucketProductMapper
 import org.burgas.webelectronics.message.BucketProductMessages
 import org.burgas.webelectronics.message.ProductMessages
 import org.burgas.webelectronics.repository.BucketProductRepository
+import org.springframework.beans.factory.ObjectFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
@@ -20,10 +24,20 @@ class BucketProductService {
 
     final val bucketProductRepository: BucketProductRepository
     final val bucketProductMapper: BucketProductMapper
+    final val bucketServiceObjectFactory: ObjectFactory<BucketService>
 
-    constructor(bucketProductRepository: BucketProductRepository, bucketProductMapper: BucketProductMapper) {
+    constructor(
+        bucketProductRepository: BucketProductRepository,
+        bucketProductMapper: BucketProductMapper,
+        bucketServiceObjectFactory: ObjectFactory<BucketService>
+    ) {
         this.bucketProductRepository = bucketProductRepository
         this.bucketProductMapper = bucketProductMapper
+        this.bucketServiceObjectFactory = bucketServiceObjectFactory
+    }
+
+    private fun getBucketService(): BucketService {
+        return bucketServiceObjectFactory.getObject()
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
@@ -44,17 +58,24 @@ class BucketProductService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-    fun increaseProduct(bucketProductShortRequest: BucketProductShortRequest) {
+    fun removeAllProducts(bucket: Bucket) {
+        val bucketProducts = this.bucketProductRepository.findBucketProductsByBucket(bucket)
+        this.bucketProductRepository.deleteAll(bucketProducts)
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+    fun increaseProduct(bucketProductShortRequest: BucketProductShortRequest): Product {
         val bucketProduct = this.bucketProductMapper.toShortEntity(bucketProductShortRequest)
         val product = bucketProduct.product ?: throw ProductNotFoundException(ProductMessages.PRODUCT_NOT_FOUND.message)
         bucketProduct.apply {
             this.amount += 1
             this.price += product.price
         }
+        return product
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-    fun reduceProduct(bucketProductShortRequest: BucketProductShortRequest) {
+    fun decreaseProduct(bucketProductShortRequest: BucketProductShortRequest): Product {
         val bucketProduct = this.bucketProductMapper.toShortEntity(bucketProductShortRequest)
         val product = bucketProduct.product ?: throw ProductNotFoundException(ProductMessages.PRODUCT_NOT_FOUND.message)
         if (bucketProduct.amount > 1) {
@@ -62,6 +83,8 @@ class BucketProductService {
                 this.amount -= 1
                 this.price -= product.price
             }
+            return product
+
         } else {
             throw BucketProductAmountException(BucketProductMessages.BUCKET_PRODUCT_WRONG_AMOUNT.message)
         }

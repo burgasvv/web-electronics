@@ -73,6 +73,8 @@ class SecurityConfig {
                         "$API_URL/identities/delete-image",
 
                         "$API_URL/buckets/by-id", "$API_URL/buckets/add-product", "$API_URL/buckets/remove-product",
+                        "$API_URL/buckets/remove-all-products",
+                        "$API_URL/buckets/increase-product", "$API_URL/buckets/decrease-product"
                     )
                     .hasAnyAuthority(Authority.ADMIN.name, Authority.USER.name)
 

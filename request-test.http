@@ -217,7 +217,7 @@ Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
-X-Csrf-Token: yC1V_UERexbbJu2K6pl_wAvo2c9ta85zpa9LH3TUEOuty3E2_RVkxHV0HSH2RY_p2rRLoTOK9K1fDq9els16fBa1INyUrUIC
+X-Csrf-Token: -e3oy0m6aaKZE7lbDPMv-VLARyQBqYDKAt59fZexmSeayik2wNSL_3-PC5e0IYtsOd4bz2CmakVlyLPnOrtISKTVqRar-RoB
 
 {
     "bucketId": "03bb1a64-8e9f-47c4-970d-211707e44a7a",
@@ -231,7 +231,40 @@ Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
-X-Csrf-Token: c_HY-9MAnri8s26gxDRwkRkeFC4XtD7AFRUY86UlTPutCkL-Rsnpwudl-I-R0AzD9BlE8CF8OUwl0V_tJncpkMdEfMyUbHHK
+X-Csrf-Token: -e3oy0m6aaKZE7lbDPMv-VLARyQBqYDKAt59fZexmSeayik2wNSL_3-PC5e0IYtsOd4bz2CmakVlyLPnOrtISKTVqRar-RoB
+
+{
+    "bucketId": "03bb1a64-8e9f-47c4-970d-211707e44a7a",
+    "productId": "51c12db4-be8e-4d73-bb17-4093ac77427c"
+}
+
+###
+DELETE /api/v1/buckets/remove-all-products?bucketId=03bb1a64-8e9f-47c4-970d-211707e44a7a
+Host: localhost:9000
+Accept: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: -e3oy0m6aaKZE7lbDPMv-VLARyQBqYDKAt59fZexmSeayik2wNSL_3-PC5e0IYtsOd4bz2CmakVlyLPnOrtISKTVqRar-RoB
+
+###
+POST /api/v1/buckets/increase-product
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: -e3oy0m6aaKZE7lbDPMv-VLARyQBqYDKAt59fZexmSeayik2wNSL_3-PC5e0IYtsOd4bz2CmakVlyLPnOrtISKTVqRar-RoB
+
+{
+    "bucketId": "03bb1a64-8e9f-47c4-970d-211707e44a7a",
+    "productId": "51c12db4-be8e-4d73-bb17-4093ac77427c"
+}
+
+###
+POST /api/v1/buckets/decrease-product
+Host: localhost:9000
+Accept: application/json
+Content-Type: application/json
+Authorization: Basic burgasvv@gmail.com burgasvv
+X-Csrf-Token: -e3oy0m6aaKZE7lbDPMv-VLARyQBqYDKAt59fZexmSeayik2wNSL_3-PC5e0IYtsOd4bz2CmakVlyLPnOrtISKTVqRar-RoB
 
 {
     "bucketId": "03bb1a64-8e9f-47c4-970d-211707e44a7a",

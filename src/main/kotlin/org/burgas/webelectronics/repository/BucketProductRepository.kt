@@ -13,6 +13,9 @@ import java.util.Optional
 @Repository
 interface BucketProductRepository : JpaRepository<BucketProduct, BucketProductPK> {
 
-    @Lock(LockModeType.WRITE)
+    @Lock(value = LockModeType.READ)
     fun findBucketProductByBucketAndProduct(bucket: Bucket, product: Product): Optional<BucketProduct>
+
+    @Lock(value = LockModeType.READ)
+    fun findBucketProductsByBucket(bucket: Bucket): MutableList<BucketProduct>
 }

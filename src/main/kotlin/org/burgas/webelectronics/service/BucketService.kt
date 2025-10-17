@@ -99,4 +99,34 @@ class BucketService {
         this.getBucketProductService().removeProduct(bucketProductShortRequest)
         return bucket.id
     }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+    fun removeAllProducts(bucketId: UUID): UUID {
+        val bucket = this.findEntity(bucketId)
+        bucket.apply {
+            this.balance = 0.0
+        }
+        this.getBucketProductService().removeAllProducts(bucket)
+        return bucket.id
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+    fun increaseProduct(bucketProductShortRequest: BucketProductShortRequest): UUID {
+        val bucket = this.findEntity(bucketProductShortRequest.bucketId)
+        val product = this.getBucketProductService().increaseProduct(bucketProductShortRequest)
+        bucket.apply {
+            this.balance += product.price
+        }
+        return bucket.id
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
+    fun decreaseProduct(bucketProductShortRequest: BucketProductShortRequest): UUID {
+        val bucket = this.findEntity(bucketProductShortRequest.bucketId)
+        val product = this.getBucketProductService().decreaseProduct(bucketProductShortRequest)
+        bucket.apply {
+            this.balance -= product.price
+        }
+        return bucket.id
+    }
 }
