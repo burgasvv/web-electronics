@@ -10,4 +10,4 @@ FROM openjdk:17 AS prod
 COPY --from=build target/web-electronics-0.0.1-SNAPSHOT.jar web-electronics.jar
 EXPOSE 9000
 
-ENTRYPOINT ["kotlin", "-jar", "web-electronics.jar"]
+ENTRYPOINT ["java", "-jar", "web-electronics.jar"]
