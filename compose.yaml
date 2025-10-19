@@ -12,3 +12,15 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: web_electronics_db
       PGDATA: /var/lib/data/postgresql
+
+  web-electronics:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/web_electronics_db
