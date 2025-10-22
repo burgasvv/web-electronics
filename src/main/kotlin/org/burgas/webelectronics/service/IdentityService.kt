@@ -58,13 +58,13 @@ class IdentityService : CrudService<IdentityRequest, Identity, IdentityShortResp
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     override fun createOrUpdate(request: IdentityRequest): IdentityFullResponse {
         val identity = identityRepository.save(this.identityMapper.toEntity(request))
-        val bucket = Bucket().apply {
-            this.identity = identity
-            this.balance = 0.0
-        }
         identity.apply {
-            this.bucket = bucket
+            this.bucket = Bucket().apply {
+                this.identity = identity
+                this.balance = 0.0
+            }
         }
+        this.identityRepository.save(identity)
         return this.identityMapper.toFullResponse(identity)
     }
 

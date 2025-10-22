@@ -33,7 +33,7 @@ POST /api/v1/identities/create
 Host: localhost:9000
 Accept: application/json
 Content-Type: application/json
-X-Csrf-Token: ML00SD2gU9dgnlfH_DUgwXbLDKMwUXiowm-JKe9kIePy794lB4UBKlmQZbJNqG7zzRgU90b4IZoBM0iFoQu6HtZVFYCQju0S
+X-Csrf-Token: rlFco_20p5K6-17nYAdIm8hr1zLozl1a5mMmU0a6GfF8zvG_zzVrm86DlKSXzWreWCp8o_1Y-gqL-Tl3gFQfMnCOLJBJrcPc
 
 {
     "authority": "ADMIN",
@@ -142,11 +142,11 @@ X-Csrf-Token: bd5llQb2P0HS_mts92hTSue6vQRusIay_MVP9QYHLjiDBTnhCOlc92CSCXH_nVJZk0
 }
 
 ###
-DELETE /api/v1/categories/delete?categoryId=da92210c-5c4b-45e9-9ac9-23018a58d9cc
+DELETE /api/v1/categories/delete?categoryId=351d58d0-065c-4ab9-958c-6f841af1267d
 Host: localhost:9000
 Accept: application/json
 Authorization: Basic burgasvv@gmail.com burgasvv
-X-Csrf-Token: bd5llQb2P0HS_mts92hTSue6vQRusIay_MVP9QYHLjiDBTnhCOlc92CSCXH_nVJZk0VnKN-NkGZZgrCfzaR9x2BhHQ7gMQ-D
+X-Csrf-Token: zWUFN0XQ_TshebcV6oLb4sdj_HusPtY4eCemDIOv4DxxY5_0rAEyD3bnzg0MT4Ms0q_v2vJQ0UPPCbIVHhCfbbWb1V1EAK2X
 
 
 
