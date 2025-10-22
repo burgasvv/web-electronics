@@ -11,7 +11,9 @@ import org.burgas.webelectronics.mapper.CategoryMapper
 import org.burgas.webelectronics.message.CategoryMessages
 import org.burgas.webelectronics.message.ImageMessages
 import org.burgas.webelectronics.repository.CategoryRepository
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.ObjectFactory
+import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Propagation
@@ -22,18 +24,27 @@ import java.util.*
 @Transactional(readOnly = true, propagation = Propagation.NOT_SUPPORTED)
 class CategoryService : CrudService<CategoryRequest, Category, CategoryShortResponse, CategoryFullResponse> {
 
+    private final val logger = LoggerFactory.getLogger(CategoryService::class.java)
+
     private final val categoryRepository: CategoryRepository
     private final val categoryMapper: CategoryMapper
     private final val imageServiceObjectFactory: ObjectFactory<ImageService>
+    private final val redisTemplate: RedisTemplate<String, Category>
 
     constructor(
         categoryRepository: CategoryRepository,
         categoryMapper: CategoryMapper,
-        imageServiceObjectFactory1: ObjectFactory<ImageService>
+        imageServiceObjectFactory: ObjectFactory<ImageService>,
+        redisTemplate: RedisTemplate<String, Category>
     ) {
         this.categoryRepository = categoryRepository
         this.categoryMapper = categoryMapper
-        this.imageServiceObjectFactory = imageServiceObjectFactory1
+        this.imageServiceObjectFactory = imageServiceObjectFactory
+        this.redisTemplate = redisTemplate
+    }
+
+    companion object {
+        private const val CACHE_KEY_PREFIX = "Category id: %s"
     }
 
     private fun getImageService(): ImageService {
@@ -52,11 +63,30 @@ class CategoryService : CrudService<CategoryRequest, Category, CategoryShortResp
     }
 
     override fun findById(id: UUID): CategoryFullResponse {
-        return this.categoryMapper.toFullResponse(this.findEntity(id))
+        val cacheKey = CACHE_KEY_PREFIX.format(id)
+        val category = this.redisTemplate.opsForValue().get(cacheKey)
+
+        if (category != null) {
+            this.logger.info("Category from cache: $cacheKey")
+            return this.categoryMapper.toFullResponse(category)
+        }
+
+        this.logger.info("Category not found in cache: $cacheKey")
+        val findEntity = this.findEntity(id)
+
+        this.redisTemplate.opsForValue().set(cacheKey, findEntity)
+        this.logger.info("Category was set in cache: $cacheKey")
+
+        return this.categoryMapper.toFullResponse(findEntity)
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     override fun createOrUpdate(request: CategoryRequest): CategoryFullResponse {
+        if (request.id != null) {
+            val cacheKey = CACHE_KEY_PREFIX.format(request.id)
+            this.redisTemplate.delete(cacheKey)
+            this.logger.info("Cache invalidated for updated product: $cacheKey")
+        }
         return this.categoryMapper.toFullResponse(
             this.categoryRepository.save(this.categoryMapper.toEntity(request))
         )
@@ -64,13 +94,19 @@ class CategoryService : CrudService<CategoryRequest, Category, CategoryShortResp
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     override fun delete(id: UUID) {
+        val cacheKey = CACHE_KEY_PREFIX.format(id)
         val category = this.findEntity(id)
         this.categoryRepository.delete(category)
+        this.redisTemplate.delete(cacheKey)
+        this.logger.info("Cache invalidated for deleted category: $cacheKey")
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     fun createImage(categoryId: UUID, part: Part) {
         val category = this.findEntity(categoryId)
+        val cacheKey = CACHE_KEY_PREFIX.format(category.id)
+        this.redisTemplate.delete(cacheKey)
+        this.logger.info("Cache invalidated for category with image for create: $cacheKey")
         val image = this.getImageService().createImage(part)
         category.apply {
             this.image = image
@@ -80,6 +116,9 @@ class CategoryService : CrudService<CategoryRequest, Category, CategoryShortResp
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     fun changeImage(categoryId: UUID, part: Part) {
         val category = this.findEntity(categoryId)
+        val cacheKey = CACHE_KEY_PREFIX.format(category.id)
+        this.redisTemplate.delete(cacheKey)
+        this.logger.info("Cache invalidated for category with image for change: $cacheKey")
         val image = category.image ?: throw ImageNotFoundException(ImageMessages.IMAGE_NOT_FOUND.message)
         this.getImageService().changeImage(image.id, part)
     }
@@ -87,6 +126,9 @@ class CategoryService : CrudService<CategoryRequest, Category, CategoryShortResp
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     fun deleteImage(categoryId: UUID) {
         val category = this.findEntity(categoryId)
+        val cacheKey = CACHE_KEY_PREFIX.format(category.id)
+        this.redisTemplate.delete(cacheKey)
+        this.logger.info("Cache invalidated for category with image for delete: $cacheKey")
         val image = category.image ?: throw ImageNotFoundException(ImageMessages.IMAGE_NOT_FOUND.message)
         category.apply {
             this.image = null

@@ -124,7 +124,7 @@ Host: localhost:9000
 Accept: application/json
 
 ###
-GET /api/v1/categories/by-id?categoryId=8f8f859d-b833-4dba-b006-b916b4bdf329
+GET /api/v1/categories/by-id?categoryId=351d58d0-065c-4ab9-958c-6f841af1267d
 Host: localhost:9000
 Accept: application/json
 

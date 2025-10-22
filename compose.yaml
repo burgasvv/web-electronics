@@ -13,6 +13,15 @@ services:
       POSTGRES_DB: web_electronics_db
       PGDATA: /var/lib/data/postgresql
 
+  redis:
+    image: redis:latest
+    container_name: web_electronics_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/var/lib/data/redis
+
   web-electronics:
     build:
       context: .
@@ -22,5 +31,9 @@ services:
     restart: unless-stopped
     depends_on:
       - postgres
+      - redis
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/web_electronics_db
+
+volumes:
+  redis_data:

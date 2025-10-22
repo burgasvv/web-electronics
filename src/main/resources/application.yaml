@@ -21,6 +21,10 @@ spring:
         use_sql_comments: true
         format_sql: true
         highlight_sql: true
+  liquibase:
+    url: jdbc:postgresql://localhost:5000/web_electronics_db
+    user: postgres
+    password: postgres
 logging:
   level:
     org.springframework.transaction.interceptor: TRACE
